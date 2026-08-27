@@ -170,6 +170,13 @@ WizFi360-C는 UART를 통해 MCU와 연결하였으며,
 Ethernet 응답이 정상적으로 수신되지 않는 경우
 Wi-Fi 경로를 이용해 동일한 요청을 다시 전송하도록 구성했습니다.
 
+| 구분                | 데이터 형식                   | 처리                         |
+| ----------------- | ------------------------ | -------------------------- |
+| Request           | `CAPTURE,W=<weight>`     | 측정 무게와 분석 요청 전송            |
+| Ethernet Response | `G`, `M`, `C` 결과 payload | 수신 후 LCD 결과 표시             |
+| Wi-Fi Response    | `+IPD,<len>:<payload>`   | AT 응답에서 payload 추출 후 결과 파싱 |
+
+
 ---
 
 ## Troubleshooting

@@ -34,6 +34,19 @@ ATmega328P-AU 기반 스마트 전자저울입니다.
 
 ---
 
+## Compare
+
+| Prototype Stage            | Final Custom PCB         |
+| -------------------------- | ------------------------ |
+| ATmega128A 기반 기존 제어 환경     | ATmega328P-AU Custom PCB |
+| HX711 모듈 ×2                | HX711 IC ×2 PCB 내장       |
+| Breadboard / jumper wiring | PCB routing              |
+| 기능 검증 중심                   | 통합 하드웨어 구현               |
+| 초기 계량 실험                   | 최종 시스템 검증                |
+
+
+---
+
 ## Demo Videos
 
 ### Custom PCB Bring-up & Hardware Verification

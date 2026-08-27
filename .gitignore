@@ -1,0 +1,27 @@
+# PlatformIO
+.pio/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build files
+build/
+dist/
+*.exe
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Secrets
+.env
+.env.*
+secrets.h
+Secrets.h

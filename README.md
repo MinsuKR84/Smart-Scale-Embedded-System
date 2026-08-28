@@ -198,7 +198,7 @@ Constant-load Variation은 시작 시점 대비 표시값 변화량을 사용했
 ![Repeatability Result](docs\validation\final_pcb\repeatability_result.png)
 
 - **Constant-load Variation:** 약 5 kg을 30분 유지한 결과 시작점 대비 -0.1 g, +0.3 g의 변화가 측정되었습니다.
-![Constant Load Result](docs\validation\final_pcb\repeatability_result.png)
+![Constant Load Result](docs\validation\final_pcb\constant_load_result.png)
 
 
 ---

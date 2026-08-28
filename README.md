@@ -274,12 +274,6 @@ Ethernet 실패 후 Wi-Fi 재전송까지 전체 동작 흐름을 확인했습�
 
 [![4-Step Functional Demo](docs/images/4-Step_demo.png)](https://www.youtube.com/watch?v=tLRHiVdR0As&feature=youtu.be)
 
-### Custom PCB Bring-up
-
-Custom PCB 제작 후 전원, Dual HX711, UI와 통신 모듈을 단계별로 검증했습니다.
-
-[![PCB Bring-up Test](docs/images/pcb_bringup.png)](https://www.youtube.com/watch?v=BGXn1gEe-zE)
-
 <!--
 ### Final System Demo with Actual Meat
 

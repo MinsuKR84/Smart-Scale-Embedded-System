@@ -62,7 +62,7 @@ Ethernet/Wi-Fi 통신부를 통합하여 최종 스마트 전자저울 시스템
 - Wi-Fi Retry
 - Result Display
 
-▶ [![4-Step Functional Demo](docs\images\4-Step_demo.png)](https://www.youtube.com/watch?v=tLRHiVdR0As&feature=youtu.be)
+▶ [![4-Step Functional Demo](docs/images/4-Step_demo.png)](https://www.youtube.com/watch?v=tLRHiVdR0As&feature=youtu.be)
 
 ### 3. Custom PCB Bring-up & Hardware Verification
 
@@ -73,7 +73,7 @@ Custom PCB 제작 후 주요 하드웨어 기능을 단계별로 검증했습니
 - 실제 하중 측정
 - Ethernet / Wi-Fi 통신 모듈 확인
 
-▶ [![PCB Bring-up Test](docs\images\pcb_bringup.png)](https://www.youtube.com/watch?v=BGXn1gEe-zE&feature=youtu.be)
+▶ [![PCB Bring-up Test](docs/images/pcb_bringup.png)](https://www.youtube.com/watch?v=BGXn1gEe-zE)
 
 
 ---
@@ -94,7 +94,7 @@ W5500 또는 WizFi360-C를 통해 Raspberry Pi 외부 처리 시스템과 데이
 
 ### 1. Prototype Validation
 
-![Prototype Setup](docs\validation\prototype\ATmega128+Breadboard.png)
+![Prototype Setup](docs/validation/prototype/ATmega128+Breadboard.png)
 
 최종 PCB 설계 이전에 ATmega128A 기반 제어 환경과 HX711 모듈을 이용하여
 Dual Load Cell 계측 구조를 사전 검증했습니다.
@@ -116,7 +116,7 @@ Prototype에서 검증한 Dual Load Cell 계측 구조를 기반으로 ATmega328
 | Breadboard / Jumper Wiring | 2-Layer PCB Routing      |
 | 기능 사전 검증                   | 통합 시스템 구현                |
 
-Detailed schematics are available in [`hardware/schematic`](hardware\schematic).
+Detailed schematics are available in [`hardware/schematic`](hardware/schematic).
 
 
 ---
@@ -189,16 +189,16 @@ Constant-load Variation은 시작 시점 대비 표시값 변화량을 사용했
 ### Result Summary
 
 - **Accuracy:** 하중 증가에 따라 표시 오차가 증가하는 경향을 확인했습니다.
-![Accuracy Result](docs\validation\final_pcb\accuracy_result.png)
+![Accuracy Result](docs/alidation/final_pcb/accuracy_result.png)
 
 - **Eccentric Loading:** 하중 위치에 따라 최대 약 4.6 g 수준의 위치별 표시 오차가 관찰되었습니다.
-![Eccentric Loading Result](docs\validation\final_pcb\eccentric_loading_result.png)
+![Eccentric Loading Result](docs/validation/final_pcb/eccentric_loading_result.png)
 
 - **Repeatability:** 10회 반복 측정을 통해 측정값의 Range와 분산을 확인했습니다.
-![Repeatability Result](docs\validation\final_pcb\repeatability_result.png)
+![Repeatability Result](docs/validation/final_pcb/repeatability_result.png)
 
 - **Constant-load Variation:** 약 5 kg을 30분 유지한 결과 시작점 대비 -0.1 g, +0.3 g의 변화가 측정되었습니다.
-![Constant Load Result](docs\validation\final_pcb\constant_load_result.png)
+![Constant Load Result](docs/validation/final_pcb/constant_load_result.png)
 
 
 ---

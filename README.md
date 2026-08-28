@@ -1,236 +1,292 @@
 # Smart Scale Embedded System
 
-ATmega328P-AU 기반 Custom PCB와 Dual Load Cell을 이용하여
-무게 측정 및 Ethernet/Wi-Fi 통신 기능을 구현한 스마트 전자저울입니다.
-
-로드셀 계측, LCD UI, 사용자 입력, 유·무선 통신 및
-Raspberry Pi 외부 처리 시스템 연동을 구현했습니다.
-
-
----
-
-
-## Final Implementation
+ATmega328P-AU 기반 Custom PCB와 Dual Load Cell을 이용하여  
+무게 측정, 사용자 인터페이스, Ethernet/Wi-Fi 통신을 구현한 스마트 전자저울 프로젝트입니다.
 
 ![Final Smart Scale](docs/images/final_system.jpg)
 
-ATmega328P-AU 기반 Custom PCB, Dual Load Cell, LCD 및
-Ethernet/Wi-Fi 통신부를 통합하여 최종 스마트 전자저울 시스템을 구현했습니다.
-
-실제 육류를 이용한 최종 통합 테스트에서 무게 측정부터
-외부 처리 시스템으로의 분석 요청 및 결과 수신까지 전체 동작을 확인했습니다.
+Prototype 단계에서 계량 구조를 먼저 검증한 뒤,  
+ATmega328P-AU와 Dual HX711 회로를 적용한 2-Layer Main PCB를 직접 설계·제작하고  
+Firmware, Board Bring-up, 계량 실험 및 Raspberry Pi 외부 시스템 연동까지 진행했습니다.
 
 
 ---
 
 
-## Key Features
+## 1. Project Overview & My Contribution
 
-- ATmega328P-AU 기반 2-Layer Custom PCB 설계 및 제작
-- Dual Load Cell + Dual HX711 기반 무게 측정
-- Tare / Calibration / Auto Zero
-- W5500 Ethernet + WizFi360-C Wi-Fi
-- Ethernet 실패 시 Wi-Fi 재전송
-- Raspberry Pi 외부 시스템 연동
+본 프로젝트는 스마트 전자저울과 Raspberry Pi 기반 육류 품질 판별 시스템을 연동한 2인 팀 프로젝트입니다.
 
+### My Scope — Embedded HW / FW
 
----
+- ATmega328P-AU 기반 2-Layer Main PCB 설계 및 제작
+- Dual Load Cell + Dual HX711 측정 회로 구성
+- HX711 IC ×2 및 주변회로 PCB 직접 구성
+- Tare / Calibration / AutoZero Firmware
+- LCD / Button / RGB LED / Buzzer 제어
+- WIZ550io Ethernet 통신
+- WizFi360io-C Wi-Fi 통신
+- Ethernet 응답 실패 시 Wi-Fi 재전송
+- PCB Bring-up 및 계량 성능 검증
+- 3D 프린팅 외관 설계 및 시스템 조립
 
+### Teammate Scope
 
-## Demo Videos
+- UVC Camera
+- Raspberry Pi 4
+- AI 기반 육류 품질 판별
 
-### 1. Final System Demo with Actual Meat
+### Main Components
 
-실제 육류를 이용하여 최종 시스템의 전체 동작 흐름을 검증했습니다.
-
-- Actual meat weighing
-- Weight measurement
-- Analysis request
-- Ethernet / Wi-Fi communication
-- External processing
-- Result display on LCD
-
-▶ [![Final System Demo](docs/images/final_meat_demo.png)](최종_실제고기_YouTube_URL)
-
-### 2. 4-Step Functional Demo
-
-무게 측정부터 데이터 전송 및 분석 결과 수신까지 전체 시스템 동작을 검증했습니다.
-
-- Weight Measurement
-- Tare / Auto Zero
-- Ethernet Communication
-- Wi-Fi Retry
-- Result Display
-
-▶ [![4-Step Functional Demo](docs/images/4-Step_demo.png)](https://www.youtube.com/watch?v=tLRHiVdR0As&feature=youtu.be)
-
-### 3. Custom PCB Bring-up & Hardware Verification
-
-Custom PCB 제작 후 주요 하드웨어 기능을 단계별로 검증했습니다.
-
-- Dual HX711 / Load Cell 동작 확인
-- LCD / RGB LED / Button / Buzzer 확인
-- 실제 하중 측정
-- Ethernet / Wi-Fi 통신 모듈 확인
-
-▶ [![PCB Bring-up Test](docs/images/pcb_bringup.png)](https://www.youtube.com/watch?v=BGXn1gEe-zE)
+| Category | Component |
+|---|---|
+| MCU | ATmega328P-AU |
+| Weight Sensor | 10 kg Load Cell ×2 |
+| ADC | HX711 IC ×2 |
+| Ethernet | WIZ550io / W5500 |
+| Wi-Fi | WizFi360io-C |
+| UI | LCD ×2, Button, RGB LED, Buzzer |
+| External Processing | Raspberry Pi 4 |
 
 
 ---
 
 
-## System Architecture
+## 2. System Architecture
 
 ![System Architecture](docs/diagrams/system_architecture.png)
 
-Dual Load Cell의 측정값을 ATmega328P-AU에서 처리하고,
-W5500 또는 WizFi360-C를 통해 Raspberry Pi 외부 처리 시스템과 데이터를 송수신합니다.
+Dual Load Cell의 신호는 각각의 HX711을 통해 ATmega328P-AU로 입력됩니다.
+
+MCU에서는 좌·우 채널을 독립적으로 보정한 뒤 최종 무게를 계산하며,
+LCD와 사용자 입력 장치를 제어합니다.
+
+외부 시스템과의 통신은 두 경로로 구성했습니다.
+
+- **SPI → WIZ550io → Ethernet**
+- **UART → WizFi360io-C → Wi-Fi**
+
+사용자가 SEND 버튼을 누르면 현재 무게값을 Raspberry Pi 4로 전달하고,
+수신한 분석 결과를 LCD에 표시합니다.
 
 
 ---
 
 
-## Development & Hardware
+## 3. Hardware Development
 
-### 1. Prototype Validation
+### Prototype → Final Custom PCB
+
+최종 PCB를 바로 제작하지 않고,
+ATmega128A와 상용 HX711 모듈을 이용해 Dual Load Cell 측정 구조를 먼저 검증했습니다.
 
 ![Prototype Setup](docs/validation/prototype/ATmega128+Breadboard.png)
 
-최종 PCB 설계 이전에 ATmega128A 기반 제어 환경과 HX711 모듈을 이용하여
-Dual Load Cell 계측 구조를 사전 검증했습니다.
+Prototype에서 검증한 구조를 바탕으로  
+최종 시스템에서는 ATmega328P-AU와 두 개의 HX711 IC를 하나의 Main PCB에 통합했습니다.
 
-Accuracy, Repeatability, Eccentric Loading 및 일정 하중 유지에 따른
-표시값 변화 항목을 시제품 수준에서 확인했습니다.
+| Prototype | Final Custom PCB |
+|---|---|
+| ATmega128A | ATmega328P-AU |
+| HX711 Module ×2 | HX711 IC ×2 Direct Integration |
+| Breadboard / Jumper Wiring | 2-Layer Custom PCB |
+| Measurement Structure Validation | Final Hardware Integration |
 
-> 해당 결과는 최종 Custom PCB 성능이 아닌 PCB 설계 이전 단계의 사전 검증 결과입니다.
+최종 PCB에서는 상용 HX711 모듈을 사용하지 않고
+HX711 SOP-16 IC와 주변회로를 직접 구성했습니다.
 
-### 2. Custom PCB Development
+Detailed schematics: [`hardware/schematic`](hardware/schematic)
 
-Prototype에서 검증한 Dual Load Cell 계측 구조를 기반으로 ATmega328P-AU, Dual HX711, 유·무선 통신 및 UI 회로를 하나의 2-Layer Main PCB에 통합했습니다.
-
-
-| Prototype                  | Final Custom PCB         |
-| -------------------------- | ------------------------ |
-| ATmega128A 기반 검증 환경        | ATmega328P-AU Custom PCB |
-| HX711 Module ×2            | HX711 IC ×2 PCB 통합       |
-| Breadboard / Jumper Wiring | 2-Layer PCB Routing      |
-| 기능 사전 검증                   | 통합 시스템 구현                |
-
-Detailed schematics are available in [`hardware/schematic`](hardware/schematic).
+> Prototype 결과는 측정 구조와 시험 방법을 검토하기 위한 개발 단계 자료이며,
+> 최종 성능 결과는 Final PCB Validation을 기준으로 제시합니다.
 
 
 ---
 
 
-## Firmware Structure
+## 4. Firmware & Communication
 
-Firmware는 기능별 모듈로 분리하여 구성했습니다.
+Firmware는 센서 측정, 보정, 사용자 인터페이스 및 통신 기능을 분리하여 구성했습니다.
 
 | Module | Function |
 |---|---|
 | `Dual_Scale.h`, `Calib.h` | Dual Load Cell 측정 및 Calibration |
-| `Tare.h`, `AutoZero.h` | Tare / Auto Zero |
+| `Tare.h`, `AutoZero.h` | Tare / AutoZero |
 | `LCD.h`, `Button.h` | User Interface |
 | `Wiz550.h` | Ethernet |
 | `Wizfi360.h` | Wi-Fi |
-| `MeatAnalysis.h` | 요청 및 결과 데이터 처리 |
+| `MeatAnalysis.h` | Request / Response 처리 |
 
-두 로드셀을 독립적으로 측정하고 센서별 Calibration Factor를 적용한 뒤
-측정값을 합산하여 최종 무게를 계산합니다.
+두 HX711에서 좌·우 Raw 값을 독립적으로 읽은 뒤
+각 채널의 Calibration Factor를 적용하여 무게값을 계산합니다.
 
-
----
-
-
-## Ethernet / Wi-Fi Communication
-
-W5500은 SPI 기반 Ethernet 기본 통신 경로로 사용하며, WizFi360-C는 UART 기반 Wi-Fi 보조 경로로 구성했습니다. Ethernet 응답이 정상적으로 수신되지 않을 경우 동일 요청을 Wi-Fi로 재전송합니다.
+### Ethernet / Wi-Fi Fallback
 
 ![Communication Flow](docs/diagrams/communication_flow.png)
 
-| 구분                | 데이터 형식                   | 처리                         |
-| ----------------- | ------------------------ | -------------------------- |
-| Request           | `CAPTURE,W=<weight>`     | 측정 무게와 분석 요청 전송            |
-| Ethernet Response | `G`, `M`, `C` 결과 payload | 수신 후 LCD 결과 표시             |
-| Wi-Fi Response    | `+IPD,<len>:<payload>`   | AT 응답에서 payload 추출 후 결과 파싱 |
+SEND 입력이 발생하면 Ethernet을 우선 사용합니다.
+
+Ethernet 경로에서 응답을 받지 못하면
+시스템 초기화 단계에서 AP Router에 접속해 둔 WizFi360io-C를 이용하여
+동일한 요청을 Wi-Fi로 다시 전송합니다.
+
+| Type | Data Format | Processing |
+|---|---|---|
+| Request | `CAPTURE,W=<weight>` | 현재 무게와 분석 요청 전송 |
+| Ethernet Response | `G`, `M`, `C` payload | 결과 파싱 후 LCD 표시 |
+| Wi-Fi Response | `+IPD,<len>:<payload>` | `+IPD` 헤더 제거 후 payload 파싱 |
 
 
 ---
 
 
-## Weight Measurement Validation
+## 5. Board Bring-up
 
-최종 Custom PCB와 기구물을 결합한 실제 동작 상태에서 계량 성능을 검증했습니다.
+Main PCB 제작 후 모든 기능을 한 번에 연결하지 않고
+전원부부터 센서, UI, 통신 순서로 단계별 검증을 수행했습니다.
 
-시험 항목은 OIML R 76의 계량 성능 평가 개념을 참고하되,
-본 시제품의 검증 목적에 맞춰 일부 항목을 선택하여 구성했습니다.
+| Step | Verification |
+|---|---|
+| 1 | VCC-GND Short Check |
+| 2 | 5 V / 3.3 V Power Rail |
+| 3 | MCU Firmware / GPIO |
+| 4 | HX711 #L / #R Raw Response |
+| 5 | LCD / Button / RGB LED / Buzzer |
+| 6 | Tare / Calibration |
+| 7 | WIZ550io SPI / Link / IP |
+| 8 | WizFi360io-C AT / AP / IP |
 
-> 본 실험은 OIML R 76에 따른 공식 적합성 또는 인증 시험이 아닌,
-> 시제품의 계량 성능을 확인하기 위한 자체 검증입니다.
+Custom PCB에서 좌·우 HX711의 Raw 데이터가
+각 Load Cell의 하중 변화에 따라 독립적으로 반응하는 것을 확인했습니다.
+
+### PCB Bring-up Video
+
+[![PCB Bring-up Test](docs/images/pcb_bringup.png)](https://www.youtube.com/watch?v=BGXn1gEe-zE)
+
+
+
+---
+
+
+## 6. Measurement Validation
+
+Prototype과 Final PCB에서 동일한 종류의 계량 항목을 이용해
+측정 특성을 단계적으로 확인했습니다.
+
+시험 항목은 OIML R 76의 비자동 저울 평가 개념을 참고하여 구성했으며,
+정식 인증 또는 적합성 시험을 의미하지 않습니다.
 
 | Test | Evaluation |
 |---|---|
-| Accuracy | 기준 하중 대비 표시 오차 | 
-| Eccentric Loading | 동일 하중의 위치 변화에 따른 표시 오차 |
-| Repeatability | 동일 하중 반복 측정 시 측정값의 분산 |
-| Constant-load Variation | 일정 하중 유지 시 시작점 대비 표시값 변화 |
+| Load Error | 기준 하중 대비 표시 오차 |
+| Eccentric Loading | 위치 변화에 따른 표시 오차 |
+| Repeatability | 동일 하중 반복 측정 특성 |
+| Constant-load Variation | 일정 하중 유지 시 표시값 변화 |
 
-Accuracy, Eccentric Loading, Repeatability는 다음의 표시 오차를 기준으로 분석했습니다.
+### 6.1 Prototype Validation — Development Reference
 
-`E = I - L`
+Prototype 단계에서는 ATmega128A와 상용 HX711 모듈을 이용하여
+측정 구조와 실험 방법을 사전 검토했습니다.
 
-- `I`: Scale indication
-- `L`: Reference load
+현재 `docs/validation/prototype`의 그래프는 개발 단계에서 확보한
+대표 측정 결과이며, Final PCB와의 직접적인 정량 성능 비교에는 사용하지 않습니다.
 
-Constant-load Variation은 시작 시점 대비 표시값 변화량을 사용했습니다.
+Prototype 자료:
 
-`ΔI(t) = I(t) - I(0)`
+- `docs/validation/prototype/accuracy_result.png`
+- `docs/validation/prototype/eccentric_loading_result.png`
+- `docs/validation/prototype/repeatability_result.png`
+- `docs/validation/prototype/constant_load_result.png`
 
-### Result Summary
+### 6.2 Final PCB Validation — Primary Result
 
-#### - **Accuracy:** 하중 증가에 따라 표시 오차가 증가하는 경향을 확인했습니다.
-![Accuracy Result](docs/validation/final_pcb/accuracy_result.png)
+최종 ATmega328P-AU Main PCB와 기구물을 결합한 상태에서
+동일한 계량 항목을 다시 시험했습니다.
 
-#### - **Eccentric Loading:** 하중 위치에 따라 최대 약 4.6 g 수준의 위치별 표시 오차가 관찰되었습니다.
-![Eccentric Loading Result](docs/validation/final_pcb/eccentric_loading_result.png)
+#### Load Error
 
-#### - **Repeatability:** 10회 반복 측정을 통해 측정값의 Range와 분산을 확인했습니다.
-![Repeatability Result](docs/validation/final_pcb/repeatability_result.png)
+하중 증가에 따른 측정 오차 변화를 확인했습니다.
 
-#### - **Constant-load Variation:** 약 5 kg을 30분 유지한 결과 시작점 대비 -0.1 g, +0.3 g의 변화가 측정되었습니다.
-![Constant Load Result](docs/validation/final_pcb/constant_load_result.png)
+![Final PCB Accuracy](docs/validation/final_pcb/accuracy_result.png)
+
+#### Eccentric Loading
+
+동일한 하중의 적재 위치를 변경하여 위치별 측정 차이를 확인했습니다.
+
+![Final PCB Eccentric Loading](docs/validation/final_pcb/eccentric_loading_result.png)
+
+#### Repeatability
+
+동일 하중을 반복 측정하여 측정값의 Range와 분산을 확인했습니다.
+
+![Final PCB Repeatability](docs/validation/final_pcb/repeatability_result.png)
+
+#### Constant-load Variation
+
+약 5 kg의 하중을 유지한 상태에서 시간에 따른 표시값 변화를 확인했습니다.
+
+![Final PCB Constant Load](docs/validation/final_pcb/constant_load_result.png)
+
+> Final PCB 결과를 본 프로젝트의 최종 계량 검증 결과로 사용합니다.
+
 
 
 ---
 
 
-## Troubleshooting
+## 7. Engineering Decisions & Troubleshooting
 
 ### Dual Load Cell Calibration
 
 **Problem**
 
-좌·우 로드셀 측정값의 편차로 인해 전체 무게값이 안정적으로 유지되지 않는 문제가 발생했습니다.
+좌·우 Load Cell의 Raw 값과 감도 차이로 인해
+두 센서에 하나의 동일한 보정값을 적용하기 어려웠습니다.
 
-**Cause**
+**Analysis**
 
-두 로드셀의 감도 차이와 개별 보정 계수 차이를 확인했습니다.
+좌·우 HX711 값을 각각 확인하여
+두 채널의 초기 Raw 값과 하중에 따른 변화량이 서로 다름을 확인했습니다.
 
 **Solution**
 
-각 로드셀에 독립적인 보정 계수를 적용한 뒤
-두 측정값을 합산하도록 펌웨어를 수정했습니다.
+각 Load Cell에 독립적인 Offset과 Calibration Factor를 적용한 뒤
+보정된 두 채널의 무게값을 합산하도록 Firmware를 구성했습니다.
 
-**Result**
+### Communication Fallback
 
-좌·우 센서 특성을 개별 보정하여 최종 무게 측정값을 안정화했습니다.
+유선 통신의 연결 상태를 확인하기 쉽다는 점을 고려해
+Ethernet을 기본 경로로 사용했습니다.
+
+LAN 연결이 제거되거나 Ethernet 응답을 받지 못한 경우에는
+이미 AP에 접속된 WizFi360io-C를 이용하여 동일 요청을 Wi-Fi로 재전송하도록 구성했습니다.
 
 
 ---
 
 
-## Results
+## 8. Demo Videos
 
-- ATmega328P-AU 기반 Custom PCB 제작 및 Bring-up 완료
-- Dual Load Cell 계측과 Ethernet/Wi-Fi failover 동작 검증
-- Raspberry Pi 외부 처리 시스템과 연동한 전체 시스템 Demo 완료
+### 4-Step Functional Demo
+
+무게 측정, Tare/AutoZero, Ethernet 통신 및
+Ethernet 실패 후 Wi-Fi 재전송까지 전체 동작 흐름을 확인했습니다.
+
+[![4-Step Functional Demo](docs/images/4-Step_demo.png)](https://www.youtube.com/watch?v=tLRHiVdR0As&feature=youtu.be)
+
+### Custom PCB Bring-up
+
+Custom PCB 제작 후 전원, Dual HX711, UI와 통신 모듈을 단계별로 검증했습니다.
+
+[![PCB Bring-up Test](docs/images/pcb_bringup.png)](https://www.youtube.com/watch?v=BGXn1gEe-zE)
+
+<!--
+### Final System Demo with Actual Meat
+
+실제 육류를 이용하여 최종 시스템에서
+무게 측정 → 분석 요청 → 외부 처리 → 결과 표시까지 전체 흐름을 검증했습니다.
+
+[![Final System Demo](docs/images/final_meat_demo.png)](최종_실제고기_YouTube_URL)
+-->
+
+---

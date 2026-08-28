@@ -343,6 +343,13 @@ static void HandleButtons()
       return;
     }
 
+    displayTotalInt = (int)lroundf(sendWeight);
+    displayTotalInitialized = true;
+    lcdWeight.setCursor(0, 1);
+    lcdWeight.print(F("TOT:"));
+    lcdWeight.print(displayTotalInt);
+    lcdWeight.print(F("g           "));
+
     char request[40];
     MeatAnalysis_BuildCaptureRequest(request, sizeof(request), sendWeight);
     char reply[96];

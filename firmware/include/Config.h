@@ -31,7 +31,7 @@
 // Display/calibration constants
 #define ZERO_SNAP_G 2.0f
 #define DISPLAY_HOLD_BAND_G 1.0f
-#define CAL_WEIGHT 155.0f
+#define CAL_WEIGHT 155.0f // 보정 무게 변환(값만 수정)
 #define CAL_DET_REL_EPS 0.02f
 #define OFFSET_LIMIT 10000000L
 #define DEFAULT_FACTOR_L 0.005406f

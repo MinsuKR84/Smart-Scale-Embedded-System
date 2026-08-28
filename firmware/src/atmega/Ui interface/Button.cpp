@@ -1,7 +1,7 @@
 #include "Button.h"
 #include <Arduino.h>
 
-static const uint32_t DEBOUNCE_MS  = 5;
+static const uint32_t DEBOUNCE_MS  = 15; // 버튼 반응 속도
 static const uint32_t LONGPRESS_MS = 2000;
 
 enum {

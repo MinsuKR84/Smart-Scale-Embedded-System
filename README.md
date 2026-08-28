@@ -188,16 +188,16 @@ Constant-load Variation은 시작 시점 대비 표시값 변화량을 사용했
 
 ### Result Summary
 
-- **Accuracy:** 하중 증가에 따라 표시 오차가 증가하는 경향을 확인했습니다.
-![Accuracy Result](docs/alidation/final_pcb/accuracy_result.png)
+#### - **Accuracy:** 하중 증가에 따라 표시 오차가 증가하는 경향을 확인했습니다.
+![Accuracy Result](docs/validation/final_pcb/accuracy_result.png)
 
-- **Eccentric Loading:** 하중 위치에 따라 최대 약 4.6 g 수준의 위치별 표시 오차가 관찰되었습니다.
+#### - **Eccentric Loading:** 하중 위치에 따라 최대 약 4.6 g 수준의 위치별 표시 오차가 관찰되었습니다.
 ![Eccentric Loading Result](docs/validation/final_pcb/eccentric_loading_result.png)
 
-- **Repeatability:** 10회 반복 측정을 통해 측정값의 Range와 분산을 확인했습니다.
+#### - **Repeatability:** 10회 반복 측정을 통해 측정값의 Range와 분산을 확인했습니다.
 ![Repeatability Result](docs/validation/final_pcb/repeatability_result.png)
 
-- **Constant-load Variation:** 약 5 kg을 30분 유지한 결과 시작점 대비 -0.1 g, +0.3 g의 변화가 측정되었습니다.
+#### - **Constant-load Variation:** 약 5 kg을 30분 유지한 결과 시작점 대비 -0.1 g, +0.3 g의 변화가 측정되었습니다.
 ![Constant Load Result](docs/validation/final_pcb/constant_load_result.png)
 
 

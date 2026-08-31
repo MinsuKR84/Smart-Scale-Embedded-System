@@ -3,7 +3,7 @@
 ATmega328P-AU 기반 Custom PCB와 Dual Load Cell을 이용하여  
 무게 측정, 사용자 인터페이스, Ethernet/Wi-Fi 통신을 구현한 스마트 전자저울 프로젝트입니다.
 
-![Final Smart Scale](docs/images/final_meat_demo.jpg)
+![Final Smart Scale](docs/images/final_meat_demo.png)
 
 Prototype 단계에서 계량 구조를 먼저 검증한 뒤,  
 ATmega328P-AU와 Dual HX711 회로를 적용한 2-Layer Main PCB를 직접 설계·제작하고  
@@ -280,7 +280,7 @@ Ethernet 실패 후 Wi-Fi 재전송까지 전체 동작 흐름을 확인했습�
 실제 육류를 이용하여 최종 시스템에서
 무게 측정 → 분석 요청 → 외부 처리 → 결과 표시까지 전체 흐름을 검증했습니다.
 
-[![Final System Demo](docs/images/final_meat_demo.jpg)](https://youtu.be/FqbM9Xd1DCc)
+[![Final System Demo](docs/images/final_meat_demo.png)](https://youtu.be/FqbM9Xd1DCc)
 
 
 ---

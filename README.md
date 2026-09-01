@@ -193,7 +193,7 @@ Prototype 단계에서는 ATmega128A와 상용 HX711 모듈을 이용하여
 
 Prototype 자료:
 
-- `docs/validation/prototype/accuracy_result.png`
+- `docs/validation/prototype/load_Error_result.png`
 - `docs/validation/prototype/eccentric_loading_result.png`
 - `docs/validation/prototype/repeatability_result.png`
 - `docs/validation/prototype/constant_load_result.png`
@@ -207,7 +207,7 @@ Prototype 자료:
 
 하중 증가에 따른 측정 오차 변화를 확인했습니다.
 
-![Final PCB Accuracy](docs/validation/final_pcb/accuracy_result.png)
+![Final PCB Load Error](docs/validation/final_pcb/load_Error_result.png)
 
 #### Eccentric Loading
 

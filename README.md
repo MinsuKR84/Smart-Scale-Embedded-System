@@ -14,7 +14,7 @@ Firmware, Board Bring-up, 계량 실험 및 Raspberry Pi 외부 시스템 연동
 
 ## Portfolio
 
-[📄 Embedded HW/FW Portfolio (PDF)](docs/portfolio/portfolio.pdf)
+[📄 Embedded HW/FW Portfolio (PDF)](docs/portfolio/Embedded_HWFW_Portfolio.pdf)
 
 ---
 

@@ -274,13 +274,13 @@ static void HandleButtons()
   ButtonEvent eTare = Button_ReadTare();
   if (eTare == BTN_SHORT) {
     StartButtonWeightIgnore();
+    Buzzer_Click();
     LED_Set(LEDSTATE_PROCESSING);
     bool ok = DoTare(scale, lcdStatus, AVG_TARE_SAMPLES,
                      "Manual TARE...",
                      "TARE Done",
                      "TARE Fail");
-    if (ok) Buzzer_Click();
-    else Buzzer_Error();
+    if (!ok) Buzzer_Error();
 
     LED_Set(LEDSTATE_NORMAL);
     ResetStableDisplayTotal();
@@ -288,6 +288,7 @@ static void HandleButtons()
     LcdBack(lcdStatus);
   } else if (eTare == BTN_LONG) {
     StartButtonWeightIgnore();
+    Buzzer_Click();
     LED_Set(LEDSTATE_PROCESSING);
     bool ok = DoTare(scale, lcdStatus, AVG_TARE_SAMPLES,
                      "Save TARE...",
@@ -308,6 +309,7 @@ static void HandleButtons()
   ButtonEvent eCal = Button_ReadCal();
   if (eCal == BTN_SHORT) {
     StartButtonWeightIgnore();
+    Buzzer_Click();
     LED_Set(LEDSTATE_PROCESSING);
     bool ok = DoCalibration(scale, lcdStatus);
     if (ok) {
@@ -326,6 +328,7 @@ static void HandleButtons()
   ButtonEvent eSend = Button_ReadSend();
   if (eSend == BTN_SHORT) {
     StartButtonWeightIgnore();
+    Buzzer_Click();
     LED_Set(LEDSTATE_PROCESSING);
     LCD_Msg(lcdStatus, F("SEND PRESSED"), F("Stabilizing..."));
 

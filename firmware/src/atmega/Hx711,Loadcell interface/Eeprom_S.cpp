@@ -2,13 +2,11 @@
 #include <math.h>
 #include <EEPROM.h>
 
-// EEPROM 주소(원 코드 그대로)
-// #define으로 사용해도 되나, 타입x, 텍스트로 치환되어 버그 발생 + 디버거에서 확인 불가
-// C에선 #define & C++에선 const
+// EEPROM 주소
 static const int EE_FACTOR_L = 0;
 static const int EE_FACTOR_R = 4;
-static const int EE_A_COEF   = 8;
-static const int EE_B_COEF   = 12;
+// static const int EE_A_COEF   = 8;
+// static const int EE_B_COEF   = 12;
 static const int EE_TARE_L   = 16;
 static const int EE_TARE_R   = 20;
 
@@ -18,8 +16,6 @@ namespace EepromStore {
     {
         EEPROM.get(EE_FACTOR_L, scale.factorL);
         EEPROM.get(EE_FACTOR_R, scale.factorR);
-        EEPROM.get(EE_A_COEF,   scale.a_coef);
-        EEPROM.get(EE_B_COEF,   scale.b_coef);
         EEPROM.get(EE_TARE_L,   scale.offsetL);
         EEPROM.get(EE_TARE_R,   scale.offsetR);
 
@@ -35,13 +31,10 @@ namespace EepromStore {
         } else {
             scale.factorR = fabsf(scale.factorR);
         }
-        if (!isfinite(scale.a_coef)) scale.a_coef = 1.0f;
-        if (!isfinite(scale.b_coef)) scale.b_coef = 1.0f;
+        
         if (scale.offsetL < -OFFSET_LIMIT || scale.offsetL > OFFSET_LIMIT) scale.offsetL = 0;
         if (scale.offsetR < -OFFSET_LIMIT || scale.offsetR > OFFSET_LIMIT) scale.offsetR = 0;
     
-        scale.a_coef = 1.0f;
-        scale.b_coef = 1.0f;
     }
     
     void SaveAll(const DualScale& scale)
@@ -49,8 +42,6 @@ namespace EepromStore {
         
         EEPROM.put(EE_FACTOR_L, scale.factorL);
         EEPROM.put(EE_FACTOR_R, scale.factorR);
-        EEPROM.put(EE_A_COEF,   scale.a_coef);
-        EEPROM.put(EE_B_COEF,   scale.b_coef);
         EEPROM.put(EE_TARE_L,   scale.offsetL);
         EEPROM.put(EE_TARE_R,   scale.offsetR);
     }

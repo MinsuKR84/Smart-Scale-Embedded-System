@@ -38,8 +38,6 @@ public:
   float factorR = DEFAULT_FACTOR_R;
   int32_t offsetL = 0;
   int32_t offsetR = 0;
-  float a_coef = 1.0f;
-  float b_coef = 1.0f;
 
 private:
   HX711 _L;

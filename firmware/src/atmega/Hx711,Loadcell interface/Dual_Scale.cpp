@@ -103,7 +103,7 @@ ScaleReading DualScale::readOnce(uint8_t samples)
   float wL = (float)netL * factorL;
   float wR = (float)netR * factorR;
 
-  float total = a_coef * wL + b_coef * wR;
+  float total = wL +  wR;
   if (isnan(total) || isinf(total)) total = 0.0f;
 
   value.wL = wL;
